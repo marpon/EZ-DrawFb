@@ -1,6 +1,6 @@
-# EZ_DRAW 1.2 forked from 
+# EZ_DRAW 1.2 static lib for FreeBasic forked from c code lib 
 
-  EZ_DRAW 1.2
+  original c code EZ_DRAW 1.2
   see https://pageperso.lif.univ-mrs.fr/~edouard.thiel/ez-draw/index-en.html
   
   English version there...
