@@ -55,17 +55,17 @@ Ez_uint8 *win_capscreen(Ez_window hwnd, int *GWidth, int *GHeight)
 {
     HDC DevC = GetDC(hwnd);
     if(DevC == NULL)
-	{
-		fprintf( stderr, "GetDC error\n" );
-		return NULL;
-	}	
+    {
+        fprintf( stderr, "GetDC error\n" );
+        return NULL;
+    }	
     HDC CaptureDC = CreateCompatibleDC(DevC);
     if(CaptureDC == NULL)
-	{
-		fprintf( stderr, "CreateCompatibleDC error\n" );
-		ReleaseDC(hwnd, DevC);
-		return NULL;
-	}	
+    {
+        fprintf( stderr, "CreateCompatibleDC error\n" );
+        ReleaseDC(hwnd, DevC);
+        return NULL;
+    }	
     WINDOWINFO WinInfos;
     WinInfos.cbSize= sizeof(WINDOWINFO);
     GetWindowInfo(hwnd, &WinInfos);
@@ -75,13 +75,13 @@ Ez_uint8 *win_capscreen(Ez_window hwnd, int *GWidth, int *GHeight)
 
     HBITMAP CaptureBitmap = CreateCompatibleBitmap(DevC, Width, Height);
     if(CaptureBitmap == NULL)
-	{
-		fprintf( stderr, "CreateCompatibleBitmap error\n" );
-		ReleaseDC(hwnd, DevC);
-    	DeleteObject(CaptureDC);
-		return NULL;
-	}	
-	SelectObject(CaptureDC, CaptureBitmap);
+    {
+        fprintf( stderr, "CreateCompatibleBitmap error\n" );
+        ReleaseDC(hwnd, DevC);
+        DeleteObject(CaptureDC);
+        return NULL;
+    }	
+    SelectObject(CaptureDC, CaptureBitmap);
     BitBlt(CaptureDC, 0, 0, Width, Height, DevC, 0, 0, SRCCOPY|CAPTUREBLT);
 
     BITMAPINFOHEADER   bi;
@@ -99,15 +99,15 @@ Ez_uint8 *win_capscreen(Ez_window hwnd, int *GWidth, int *GHeight)
 
     Ez_uint8 *pPixels = malloc(dwBmpSize);
     if(pPixels == NULL)
-	{
-		fprintf( stderr, "Not allocated memory\n" );
-		ReleaseDC(hwnd, DevC);
-    	DeleteObject(CaptureDC);
-    	DeleteObject(CaptureBitmap);
-		return NULL;
-	}	
+    {
+        fprintf( stderr, "Not allocated memory\n" );
+        ReleaseDC(hwnd, DevC);
+        DeleteObject(CaptureDC);
+        DeleteObject(CaptureBitmap);
+        return NULL;
+    }	
     GetDIBits(CaptureDC, CaptureBitmap, 0, Height, pPixels, (BITMAPINFO *)&bi, DIB_RGB_COLORS);
-	ReleaseDC(hwnd, DevC);
+    ReleaseDC(hwnd, DevC);
     DeleteObject(CaptureDC);
     DeleteObject(CaptureBitmap);
     DWORD dx = 0;
@@ -115,12 +115,12 @@ Ez_uint8 *win_capscreen(Ez_window hwnd, int *GWidth, int *GHeight)
     Ez_uint8 temp;
     while(dx < dwBmpSize)
     {
-		temp = pPixels[dx ];
-		pPixels[kx] = pPixels[dx + 2];
-		pPixels[kx + 1] = pPixels[dx + 1];
-		pPixels[kx + 2] = temp;
-		kx +=3;
-		dx +=4;
+        temp = pPixels[dx ];
+        pPixels[kx] = pPixels[dx + 2];
+        pPixels[kx + 1] = pPixels[dx + 1];
+        pPixels[kx + 2] = temp;
+        kx +=3;
+        dx +=4;
     }
     pPixels = realloc(pPixels, dwBmpSize * 3 / 4);
     return pPixels;
